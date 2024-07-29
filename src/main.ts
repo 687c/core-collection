@@ -2,6 +2,7 @@ import {
 	createCollectionV1,
 	createV1 as createCoreAsset,
 	fetchAssetV1,
+	mplCore,
 	pluginAuthorityPair,
 	ruleSet,
 } from "@metaplex-foundation/mpl-core";
@@ -31,7 +32,7 @@ const umi = createUmi(clusterApiUrl("devnet"));
 
 const keypair = umi.eddsa.createKeypairFromSecretKey(secretKey());
 
-umi.use(keypairIdentity(keypair)); /* .use(mplTokenMetadata()); */
+umi.use(keypairIdentity(keypair)).use(mplCore());
 
 // mint collection
 // create a metaplex core collection
@@ -44,25 +45,25 @@ async function mintCoreCollection() {
 	}).sendAndConfirm(umi);
 
 	await sleep();
+	console.log("this is being called too sooon");
 
-	let noToMint = 10;
+	let noToMint = 9;
 	for (let i = 1; i <= noToMint; i++) {
 		const asset = generateSigner(umi);
 
 		await createCoreAsset(umi, {
 			asset,
-			name: `Kobeni Supremacy ${i}`,
-			uri: "https://raw.githubusercontent.com/687c/solana-nft-native-client/main/metadata.json",
 			collection: collection.publicKey,
+			name: `Kobeni ${i}`,
+			uri: "https://raw.githubusercontent.com/687c/solana-nft-native-client/main/metadata.json",
 		}).sendAndConfirm(umi);
 
 		console.log("minted ", i);
-
-		await sleep(2500);
+		await sleep(1000);
 	}
 }
 
-const sleep = async (ms: number = 1000) => {
+const sleep = async (ms: number = 10000) => {
 	return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
