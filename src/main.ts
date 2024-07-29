@@ -20,7 +20,7 @@ import { createUmi } from "@metaplex-foundation/umi-bundle-defaults";
 
 import { clusterApiUrl } from "@solana/web3.js";
 import dotenv from "dotenv";
-import { secretKey } from "./helpers";
+import { UINT_USER_KEYPAIR } from "./helpers";
 
 dotenv.config();
 
@@ -30,7 +30,7 @@ dotenv.config();
 
 const umi = createUmi(clusterApiUrl("devnet"));
 
-const keypair = umi.eddsa.createKeypairFromSecretKey(secretKey());
+const keypair = umi.eddsa.createKeypairFromSecretKey(UINT_USER_KEYPAIR);
 
 umi.use(keypairIdentity(keypair)).use(mplCore());
 
